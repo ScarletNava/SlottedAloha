@@ -7,11 +7,11 @@ import MyClock
 import MyFrameList
 
 N=5
-times=10
+times=20
 FrameList=MyFrameList.FrameList(N,times)
 FrameList.MessageDefine(0,0,"Frame 0,0")
-FrameList.MessageDefine(0,1,"Frame 1,0")
-
+FrameList.MessageDefine(1,0,"Frame 1,0")
+FrameList.MessageDefine(2,1,"Frame 2,1")
 # List=FrameList.FinishDefine()
 # print(List)
 Clock=MyClock.Clock(N,times,FrameList.FinishDefine())
