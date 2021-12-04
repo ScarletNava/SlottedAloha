@@ -3,7 +3,6 @@ class FrameList:
     def __init__(self, N, times) -> None:
         self.N = N
         self.times = times
-        # print(self.N)
         self.FrameList = []
         pass
 
