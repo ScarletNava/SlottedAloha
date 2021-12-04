@@ -25,7 +25,7 @@ class Node:
         向信道传送消息
         '''
         if (self.ReSend):  # 重传
-            if (MyRandom.random() < self.p and len(self.frame) != 0):  # 发送
+            if (MyRandom.random() < self.p ):  # 发送and len(self.frame) != 0
                 return 1  # 发送
             else:  # 不发送
                 return 0  # 不发送

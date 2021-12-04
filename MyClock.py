@@ -70,7 +70,7 @@ class Clock:
         # except IndexError:
         #     pass
 
-        if len(self.WhoSend) >= 1:
+        if len(self.WhoSend) > 1:
             # print("第",slot,"时隙：重传")
             return 1
         else:
