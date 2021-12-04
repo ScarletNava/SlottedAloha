@@ -1,6 +1,5 @@
-import numpy as np
-
-
+# import numpy as np
+import time
 class MRG32k3a:
     def __init__(self, x_0, x_1, x_2):
         self.x1_0 = x_0
@@ -32,15 +31,14 @@ class MRG32k3a:
         self.x2_2 = self.x2
         return self.un
 
-
-_inst = MRG32k3a(100, 500, 1000)
+_inst = MRG32k3a(int(time.time()), int(int(time.time())/2), int(int(time.time())/4))
 random = _inst.getRandom
 
-if __name__ == "__main__":
-    res = []
-    mrg = MRG32k3a(100, 500, 1000)
-    for i in range(10000):
-        res.append(mrg.getRandom())
-    array = np.array(res)
-    print(f"sigma2:{array.var()}")
-    print(f"u:{array.mean()}")
+# if __name__ == "__main__":
+#     res = []
+#     mrg = MRG32k3a(100, 500, 1000)
+#     for i in range(10000):
+#         res.append(mrg.getRandom())
+#     array = np.array(res)
+#     print(f"sigma2:{array.var()}")
+#     print(f"u:{array.mean()}")
