@@ -1,5 +1,6 @@
 import time
 
+
 def _int32(x):
     return int(0xFFFFFFFF & x)
 
@@ -33,4 +34,3 @@ class MT19937:
 
 _inst = MT19937()
 random = _inst.random
-

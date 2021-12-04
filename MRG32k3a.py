@@ -1,5 +1,7 @@
 # import numpy as np
 import time
+
+
 class MRG32k3a:
     def __init__(self, x_0, x_1, x_2):
         self.x1_0 = x_0
@@ -31,7 +33,8 @@ class MRG32k3a:
         self.x2_2 = self.x2
         return self.un
 
-_inst = MRG32k3a(int(time.time()), int(int(time.time())/2), int(int(time.time())/4))
+
+_inst = MRG32k3a(int(time.time()), int(int(time.time()) / 2), int(int(time.time()) / 4))
 random = _inst.getRandom
 
 # if __name__ == "__main__":

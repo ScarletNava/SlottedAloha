@@ -1,19 +1,19 @@
 class FrameList:
 
-    def __init__(self,N,times) -> None:
-        self.N=N
-        self.times=times
+    def __init__(self, N, times) -> None:
+        self.N = N
+        self.times = times
         # print(self.N)
-        self.FrameList=[]
+        self.FrameList = []
         pass
 
-    def MessageDefine(self,n,i,message):
+    def MessageDefine(self, n, i, message):
         '''
         定义事件，可以扩展为将Message封装成Frame
         parma n:第n个Node(从0开始)
         parma i:第i个Slot(从0开始)
         '''
-        self.FrameList.append([n,i,message])
+        self.FrameList.append([n, i, message])
 
     def FinishDefine(self):
         '''
@@ -22,7 +22,3 @@ class FrameList:
         '''
 
         return self.FrameList
-
-
-
-
