@@ -80,15 +80,15 @@ class Scheduler:
             for j in range(int(a[1])):
                 if y[i][j] :
                     res[j]+=1
-                    for k in range(10):
-                        newY[10*j+k]+=0.9               
+                    for k in range(7):
+                        newY[10*j+k+2]+=0.9               
             plt.plot(x,newY)
 
         newRes=np.zeros(10*int(a[1]))
         for i in range(int(a[1])):
             if res[i]==1:
-                for k in range(10):
-                    newRes[10*i+k]+=0.9  
+                for k in range(7):
+                    newRes[10*i+k+2]+=0.9  
         plt.plot(x,newRes)
         yyticks=["res"]
         yticks=np.arange(0,int(a[0])+2,1)
