@@ -55,7 +55,7 @@ class Clock:
 
     def Arbiter(self, slot):  # 判决器
         self.WhoSend = []
-        print("第", slot, "时隙")
+        
         for i in range(self.N):
             if not self.Node[i].SendFrame():
                 # print(i,"未发送")
@@ -63,7 +63,8 @@ class Clock:
             else:
                 # temp+=1
                 self.WhoSend.append(i)
-
+        if self.WhoSend:
+            print("第", slot, "时隙")
         for i in range(len(self.WhoSend)):
             # try:
             print(self.WhoSend[i], "发送", self.Node[self.WhoSend[i]].frame[0])
