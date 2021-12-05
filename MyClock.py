@@ -45,11 +45,8 @@ class Clock:
                 pass
 
             if len(self.WhoSend) == 1:
-                # try:
                 print("发送成功", self.Node[self.WhoSend[0]].frame[0])
                 self.Node[self.WhoSend[0]].frame.pop(0)
-            # except IndexError:
-            #     pass
 
         pass
 
@@ -58,22 +55,15 @@ class Clock:
         
         for i in range(self.N):
             if not self.Node[i].SendFrame():
-                # print(i,"未发送")
                 pass
             else:
-                # temp+=1
                 self.WhoSend.append(i)
         if self.WhoSend:
             print("第", slot, "时隙")
         for i in range(len(self.WhoSend)):
-            # try:
             print(self.WhoSend[i], "发送", self.Node[self.WhoSend[i]].frame[0])
-        # except IndexError:
-        #     pass
 
         if len(self.WhoSend) > 1:
-            # print("第",slot,"时隙：重传")
             return 1
         else:
-            # print("第",slot,"时隙：未重传")
             return 0
