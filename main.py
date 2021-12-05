@@ -3,7 +3,7 @@ import MyRandom
 import MRG32k3a
 import time
 import MyNode
-import MyClock
+import MyScheduler
 import MyFrameList
 
 N = 5
@@ -13,6 +13,6 @@ FrameList.MessageDefine(0, 0, "Frame 0,0")
 FrameList.MessageDefine(1, 0, "Frame 1,0")
 FrameList.MessageDefine(2, 1, "Frame 2,1")
 
-Clock = MyClock.Clock(N, times, FrameList.FinishDefine())
+Clock = MyScheduler.Scheduler(N, times, FrameList.FinishDefine())
 Clock.StartSimulation()
 

@@ -1,5 +1,5 @@
 """
-    仿真时钟管理
+    调度器与仿真时钟管理
 """
 
 import time
@@ -7,7 +7,7 @@ import MyNode
 import MyFrameList
 
 
-class Clock:
+class Scheduler:
     def __init__(self, N, times, FrameList) -> None:
         """
         parma N:Node个数
