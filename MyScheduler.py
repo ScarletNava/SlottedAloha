@@ -4,7 +4,7 @@
 
 import time
 import MyNode
-import MyFrameList
+import MyEventListManagement
 
 
 class Scheduler:
@@ -26,13 +26,16 @@ class Scheduler:
     def StartSimulation(self):
 
         for i in range(self.times):  # Slots
+
+            #A阶段:找出下一事件发生时刻并将仿真时钟推进到该时刻
             for j in range(self.N):  # Nodes
                 for k in range(len(self.FrameList)):  # 遍历FrameList
                     if self.FrameList[k][0] == j and self.FrameList[k][1] == i:
+                        #B阶段：执行所有到时间的B事件
                         self.Node[j].FrameQueuePush(self.FrameList[k][2])
-                pass
-            pass
 
+            
+            #C阶段：对所有C事件的条件进行判断，执行所有满足条件的C事件
             if self.Arbiter(i):  # 下个时隙发生重传
                 for k in range(self.N):
                     self.Node[k].ReSend = False  # 先清零
@@ -48,7 +51,7 @@ class Scheduler:
                 print("发送成功", self.Node[self.WhoSend[0]].frame[0])
                 self.Node[self.WhoSend[0]].frame.pop(0)
 
-        pass
+
 
     def Arbiter(self, slot):  # 判决器
         self.WhoSend = []
