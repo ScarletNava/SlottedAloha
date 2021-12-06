@@ -1,4 +1,3 @@
-# import numpy as np
 import time
 
 
@@ -37,11 +36,12 @@ class MRG32k3a:
 _inst = MRG32k3a(int(time.time()), int(int(time.time()) / 2), int(int(time.time()) / 4))
 random = _inst.getRandom
 
-# if __name__ == "__main__":
-#     res = []
-#     mrg = MRG32k3a(100, 500, 1000)
-#     for i in range(10000):
-#         res.append(mrg.getRandom())
-#     array = np.array(res)
-#     print(f"sigma2:{array.var()}")
-#     print(f"u:{array.mean()}")
+if __name__ == "__main__":
+    import numpy as np
+    res = []
+    mrg = MRG32k3a(100, 500, 1000)
+    for i in range(10000):
+        res.append(mrg.getRandom())
+    array = np.array(res)
+    print(f"sigma2:{array.var()}")
+    print(f"u:{array.mean()}")
