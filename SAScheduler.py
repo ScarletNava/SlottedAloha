@@ -5,7 +5,7 @@
 import time
 
 from numpy.core.numeric import ones
-import MyNode
+import SANode
 import MyEventListManagement
 import matplotlib.pyplot as plt
 import numpy as np
@@ -24,7 +24,7 @@ class Scheduler:
         self.Node = []
         self.WhoSend = []
         for i in range(self.N):  # 初始化Node
-            self.Node.append(MyNode.Node())
+            self.Node.append(SANode.Node())
         print(self.FrameList)
         self.filename = './log/log.txt'
         self.file_object = open(self.filename, 'w')

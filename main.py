@@ -2,17 +2,16 @@ import numpy as np
 import MyRandom
 import MRG32k3a
 import time
-import MyNode
-import MyScheduler
-import MyEventListManagement
+import SANode
+import SAScheduler
 import MyEventListManagement
 
 N = 5
 times = 100
-MyNode.Node.p=0.25
+SANode.Node.p=0.25
 elm = MyEventListManagement.EventListManagement(N, times)
 elm.DefinePoissonEvents(endslot=times, lamb=2)
-clk = MyScheduler.Scheduler(N, times, elm.FinishDefine())
+clk = SAScheduler.Scheduler(N, times, elm.FinishDefine())
 clk.StartSimulation()
 # clk.print()
 print(clk.CalcEffciency())
