@@ -30,7 +30,11 @@ class Scheduler:
         self.file_object = open(self.filename, 'w')
         self.file_object.write(str(self.N) + " " + str(self.times) + "\n")
 
-    def StartSimulation(self):
+    def StartSimulation(self,ifPrint):
+        '''
+        开始仿真
+        parma <bool>ifPrint:是否画图
+        '''
         for i in range(self.times):  # Slots
 
             # A阶段:找出下一事件发生时刻并将仿真时钟推进到该时刻
@@ -60,6 +64,10 @@ class Scheduler:
                 self.Node[self.WhoSend[0]].frame.pop(0)
 
         self.file_object.close()
+        if ifPrint:
+            self.print()
+
+    def print(self):
         self.file_object = open(self.filename, 'r')
         f = self.file_object
         a = f.readline().split()
