@@ -23,7 +23,7 @@ class Scheduler:
         self.FrameList = FrameList
         self.Node = []
         self.WhoSend = []
-        for i in range(5):  # 初始化Node
+        for i in range(self.N):  # 初始化Node
             self.Node.append(MyNode.Node())
         print(self.FrameList)
         self.filename = './log/log.txt'
@@ -96,6 +96,18 @@ class Scheduler:
         plt.xticks(np.arange(0, int(a[1]), 1))
         plt.show()
 
+    def CalcEffciency(self):
+        self.file_object.close()
+        with open(self.filename, mode='r') as f:
+            content = f.readlines()
+            sentNum = 0
+            for i in range(len(content)):
+                content[i] = content[i].rstrip('\n').split()
+                if len(content[i]) == 2:
+                    sentNum += 1
+            print(len(self.FrameList))
+            return (sentNum-1) / len(self.FrameList)
+
     def Arbiter(self, slot):  # 判决器
         self.WhoSend = []
 
@@ -118,3 +130,17 @@ class Scheduler:
             return 1
         else:
             return 0
+
+
+if __name__ == "__main__":
+    import MyEventListManagement
+
+    N = 5
+    times = 100
+
+    elm = MyEventListManagement.EventListManagement(N, times)
+    elm.DefinePoissonEvents(endslot=times, lamb=2)
+    clk = Scheduler(N, times, elm.FinishDefine())
+    clk.StartSimulation()
+    print(clk.CalcEffciency())
+    # print(clk.file_object.readlines())

@@ -18,10 +18,10 @@ FrameList = MyEventListManagement.EventListManagement(N, times)
 # FrameList.DefineEvent(2,1,"节点2 事件测试")
 # FrameList.DefineEvent(1,0,"节点2 事件测试")
 # FrameList.DefineEvent(0,0,"节点2 事件测试")
-FrameList.DefineParetoEvents(endslot=20)
+# FrameList.DefineParetoEvents(endslot=20)
+FrameList.DefinePoissonEvents(endslot=20, lamb=2)
 
 # FrameList.DefineEventB(0,0,1,5,"节点0 B事件测试多事件")
 
 Clock = MyScheduler.Scheduler(N, times, FrameList.FinishDefine())
 Clock.StartSimulation()
-

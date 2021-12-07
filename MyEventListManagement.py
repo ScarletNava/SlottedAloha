@@ -1,5 +1,6 @@
 from MyPareto import random
 import math
+import Poisson
 
 
 class EventListManagement:
@@ -44,14 +45,27 @@ class EventListManagement:
                     paretoList.pop()
                     break
 
-            # while paretoList < self.times:
-            #     if i == -1:
-            #         paretoList.append(math.ceil(random()))
-            #     else:
-            #         paretoList.append(math.ceil(random() + paretoList[i]))
-            #     i += 1
             print(paretoList)
             for slot in paretoList:
+                self.FrameList.append([node, slot, f"node:{node},eventTime:{slot}"])
+
+    def DefinePoissonEvents(self, endslot, lamb=1):
+        for node in range(self.N):
+            e = Poisson.ExpDistribution(lamb)
+            i = 0
+            poissonList = [0]
+            while True:
+                if i == 0:
+                    poissonList[0] = math.ceil(10 * e.random())
+                else:
+                    poissonList.append(poissonList[i - 1] + math.ceil(10 * e.random()))
+                i += 1
+                if poissonList[i - 1] >= endslot:
+                    poissonList.pop()
+                    break
+
+            print(poissonList)
+            for slot in poissonList:
                 self.FrameList.append([node, slot, f"node:{node},eventTime:{slot}"])
 
     def DefineEvent(self, n, a, message):
@@ -63,8 +77,11 @@ class EventListManagement:
         """
         self.FrameList.append([n, a, message])
 
+    def getEventLength(self):
+        return len(self.FrameList)
+
 
 if __name__ == "__main__":
     elm = EventListManagement(3, 20)
-    elm.DefineParetoEvents()
-    print(elm)
+    elm.DefinePoissonEvents(endslot=20, lamb=2)
+    print(elm.getEventLength())

@@ -2,7 +2,7 @@ import MyRandom
 
 
 class Node:
-    p = 0.5
+    p = 0.3
 
     def __init__(self) -> None:
         '''
