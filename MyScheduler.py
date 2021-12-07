@@ -41,16 +41,19 @@ class Scheduler:
                         self.Node[j].FrameQueuePush(k[2])
 
             # C阶段：对所有C事件的条件进行判断，执行所有满足条件的C事件
-            if self.Arbiter(i):  # 下个时隙发生重传
-                for k in range(self.N):
-                    self.Node[k].ReSend = False  # 先清零
-                for k in range(len(self.WhoSend)):
-                    self.Node[self.WhoSend[k]].ReSend = True  # 再置位
-                    pass
-            else:  # 下个时隙不发生重传
-                for k in range(self.N):
-                    self.Node[k].ReSend = False  # 先清零
-                pass
+            # if self.Arbiter(i):  # 下个时隙发生重传
+
+            #     for k in range(self.N):
+            #         self.Node[k].ReSend = False  # 先清零
+            #     for k in range(len(self.WhoSend)):
+            #         self.Node[self.WhoSend[k]].ReSend = True  # 置位
+            #         pass
+            # else:  # 下个时隙不发生重传
+
+            #     for k in range(self.N):
+            #         self.Node[k].ReSend = False  # 先清零
+            #     pass
+            self.Arbiter(i)
 
             if len(self.WhoSend) == 1:
                 print("发送成功", self.Node[self.WhoSend[0]].frame[0])
@@ -126,10 +129,14 @@ class Scheduler:
         for i in self.WhoSend:
             print(i, "发送", self.Node[i].frame[0])
 
-        if len(self.WhoSend) > 1:
-            return 1
-        else:
-            return 0
+        if len(self.WhoSend) > 1: # 发生重传
+            for each in self.WhoSend:
+                self.Node[each].ReSend=True
+            # return 1
+        else:   # 不重传
+            if self.WhoSend:
+                self.Node[self.WhoSend[0]].ReSend=False
+            # return 0
 
 
 if __name__ == "__main__":
