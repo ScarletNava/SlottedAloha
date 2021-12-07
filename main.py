@@ -4,12 +4,12 @@ import MRG32k3a
 import time
 import SANode
 import SAScheduler
-import MyEventListManagement
+import SAEventListManagement
 
 N = 5
 times = 100
 SANode.Node.p=0.25
-elm = MyEventListManagement.EventListManagement(N, times)
+elm = SAEventListManagement.EventListManagement(N, times)
 elm.DefinePoissonEvents(endslot=times, lamb=2)
 clk = SAScheduler.Scheduler(N, times, elm.FinishDefine())
 clk.StartSimulation()

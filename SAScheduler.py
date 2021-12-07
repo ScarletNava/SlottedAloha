@@ -6,7 +6,7 @@ import time
 
 from numpy.core.numeric import ones
 import SANode
-import MyEventListManagement
+import SAEventListManagement
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -143,12 +143,12 @@ class Scheduler:
 
 
 if __name__ == "__main__":
-    import MyEventListManagement
+    import SAEventListManagement
 
     N = 5
     times = 100
 
-    elm = MyEventListManagement.EventListManagement(N, times)
+    elm = SAEventListManagement.EventListManagement(N, times)
     elm.DefinePoissonEvents(endslot=times, lamb=2)
     clk = Scheduler(N, times, elm.FinishDefine())
     clk.StartSimulation()
