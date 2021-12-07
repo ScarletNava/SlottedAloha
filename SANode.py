@@ -16,9 +16,10 @@ class Node:
     def FrameQueuePush(self, frame):
         """
         帧管理模块接受待传的帧
-        parma message:需要传送的帧
+        parma frame:需要传送的帧
         """
         self.frame.append(frame)
+        print(self.frame)
 
     def SendFrame(self):
         """
