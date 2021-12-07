@@ -13,7 +13,8 @@ MyNode.Node.p=0.25
 elm = MyEventListManagement.EventListManagement(N, times)
 elm.DefinePoissonEvents(endslot=times, lamb=2)
 clk = MyScheduler.Scheduler(N, times, elm.FinishDefine())
-clk.StartSimulation(True)
+clk.StartSimulation()
+# clk.print()
 print(clk.CalcEffciency())
 
 # N = 3
