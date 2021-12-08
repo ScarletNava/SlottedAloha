@@ -2,17 +2,24 @@ import MyRandom
 import math
 class Node:
     '''
-    parma IFG:帧间缝隙
+    @parma IFG:帧间缝隙
+    @parma Crowd:信道忙碌
+    @parma Conflict:信道碰撞
     '''
-    IFG=None
+    IFG=None        
     Crowd=False
     Conflict=False
     def __init__(self) -> None:
         '''
-        
+        @parma FreeTime:信道空闲的时间
+        @parma sending:当前节点是否正在传输帧
+        @parma ConflictTime:碰撞次数
+        @parma DelayTime:回退时间
+        @parma SendTime:传输当前帧需要的时间
+        @parma Finish:是否传输完成
         '''
         self.frame=[]
-        self.FreeTime=0
+        self.FreeTime=0     
         self.sending=False
         self.ConflictTime=0
         self.DelayTime=0
@@ -34,11 +41,13 @@ class Node:
         向信道传送消息
         
         '''
+        # 判断IFG
         if not Node.Crowd:
             self.FreeTime+=1
         else:
             self.FreeTime=1
 
+        # 判断回退时间是否结束
         if self.DelayTime:
             self.DelayTime-=1
 
