@@ -31,25 +31,18 @@ class Scheduler:
         self.file_object.write(str(self.N) + " " + str(self.times) + "\n")
 
     def StartSimulation(self):
-
-        for i in range(self.times):  # Slots
-
+        for i in range(self.times):  # 仿真时间段
             # A阶段:找出下一事件发生时刻并将仿真时钟推进到该时刻
             for j in range(self.N):  # Nodes
                 for k in self.FrameList:  # 遍历FrameList
                     if k[0] == j and k[1] == i:
                         # B阶段：执行所有到时间的B事件
-                        self.Node[j].FrameQueuePush(k[2])
-
-            # C阶段：对所有C事件的条件进行判断，执行所有满足条件的C事件
-
+                        self.Node[j].FrameQueuePush(k[2],k[3])
+                        # print(k[2],k[3])
+            
             self.Arbiter(i)
 
-            if len(self.WhoSend) == 1:
-                print("发送成功", self.Node[self.WhoSend[0]].frame[0])
-                self.Node[self.WhoSend[0]].frame.pop(0)
-
-        self.file_object.close()
+        self.file_object.close()   
 
     def print(self):
         self.file_object = open(self.filename, 'r')
@@ -73,15 +66,15 @@ class Scheduler:
             for j in range(int(a[1])):
                 if y[i][j]:
                     res[j] += 1
-                    for k in range(7):
-                        newY[10 * j + k + 2] += 0.9
+                    for k in range(10):
+                        newY[10 * j + k ] += 0.9
             plt.plot(x, newY)
 
         newRes = np.zeros(10 * int(a[1]))
         for i in range(int(a[1])):
             if res[i] == 1:
-                for k in range(7):
-                    newRes[10 * i + k + 2] += 0.9
+                for k in range(10):
+                    newRes[10 * i + k ] += 0.9
         plt.plot(x, newRes)
         yyticks = ["res"]
         yticks = np.arange(0, int(a[0]) + 2, 1)
@@ -107,6 +100,7 @@ class Scheduler:
         self.WhoSend = []
 
         for i in range(self.N):
+            self.Node[i].Crowd=False
             if not self.Node[i].SendFrame():
                 pass
             else:
@@ -118,16 +112,17 @@ class Scheduler:
             s = s.replace('[', '').replace(']', '').replace(',', '')
             self.file_object.write(str(slot) + " " + s + "\n")
             print("第", slot, "时隙")
+        
         for i in self.WhoSend:
             print(i, "发送", self.Node[i].frame[0])
 
         if len(self.WhoSend) > 1: # 发生重传
             for each in self.WhoSend:
-                self.Node[each].ReSend=True
+                self.Node[each].Crowd=True
             # return 1
         else:   # 不重传
             if self.WhoSend:
-                self.Node[self.WhoSend[0]].ReSend=False
+                self.Node[self.WhoSend[0]].Crowd=False
             # return 0
 
 

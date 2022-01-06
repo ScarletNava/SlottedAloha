@@ -22,6 +22,8 @@ def TestSlottedAloha():
     clk.StartSimulation()
     clk.print()
     print("效率%.2f%%"%(clk.CalcEffciency()*100))
+
+#Aloha有问题 跑不了
 def TestAloha():
     N = 2
     times = 100
@@ -29,7 +31,8 @@ def TestAloha():
     ANode.Node.TransTime = 5
     FrameList = AEventListManagement.EventListManagement(N, times)
     # elm.DefinePoissonEvents(endslot=times, lamb=2)
-    FrameList.DefineEvent(2,1,"节点2 事件测试",ANode.Node.TransTime)
+    FrameList.DefineEvent(0,1,"节点0 事件测试",ANode.Node.TransTime)
+    FrameList.DefineEvent(1,2,"节点0 事件测试",ANode.Node.TransTime)
     clk = AScheduler.Scheduler(N, times, FrameList.FinishDefine())
     clk.StartSimulation()
     clk.print()
@@ -67,9 +70,9 @@ def TestCSMA():
     Clock.StartSimulation()
     Clock.print()
 
-
-# TestSlottedAloha()
-TestAloha()
-# TestCSMACD()
-# TestCSMA()
+# ALOHA  有问题
+TestSlottedAloha()
+# TestAloha()
+TestCSMACD()
+TestCSMA()
 
