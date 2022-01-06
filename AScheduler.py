@@ -5,8 +5,8 @@
 import time
 
 from numpy.core.numeric import ones
-import SANode
-import SAEventListManagement
+import ANode
+import AEventListManagement
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -24,7 +24,7 @@ class Scheduler:
         self.Node = []
         self.WhoSend = []
         for i in range(self.N):  # 初始化Node
-            self.Node.append(SANode.Node())
+            self.Node.append(ANode.Node())
         print(self.FrameList)
         self.filename = './log/log.txt'
         self.file_object = open(self.filename, 'w')
@@ -42,7 +42,7 @@ class Scheduler:
                         self.Node[j].FrameQueuePush(k[2])
 
             # C阶段：对所有C事件的条件进行判断，执行所有满足条件的C事件
-            
+
             self.Arbiter(i)
 
             if len(self.WhoSend) == 1:
@@ -132,12 +132,12 @@ class Scheduler:
 
 
 if __name__ == "__main__":
-    import SAEventListManagement
+    import AEventListManagement
 
     N = 5
     times = 100
 
-    elm = SAEventListManagement.EventListManagement(N, times)
+    elm = AEventListManagement.EventListManagement(N, times)
     elm.DefinePoissonEvents(endslot=times, lamb=2)
     clk = Scheduler(N, times, elm.FinishDefine())
     clk.StartSimulation()

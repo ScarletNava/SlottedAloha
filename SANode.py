@@ -1,17 +1,17 @@
 import MyRandom
 
 
-class Node:
-    p = 0.5
+class Node: # 节点类
+    p = 0.5 # 重传概率
 
     def __init__(self) -> None:
         '''
         采用FIFO
         需要传送的帧过多时，存入队列
-
         '''
         self.ReSend = False
         self.frame = []
+        # 代码省略
 
     def FrameQueuePush(self, frame):
         """

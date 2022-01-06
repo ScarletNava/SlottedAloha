@@ -2,14 +2,11 @@
     调度器与仿真时钟管理
 """
 
-import time
-
 from numpy.core.numeric import ones
-import SANode
-import SAEventListManagement
+import CSMANode
+import CSMAEventListManagement
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
 
 class Scheduler:
@@ -24,32 +21,53 @@ class Scheduler:
         self.Node = []
         self.WhoSend = []
         for i in range(self.N):  # 初始化Node
-            self.Node.append(SANode.Node())
+            self.Node.append(CSMANode.Node())
         print(self.FrameList)
         self.filename = './log/log.txt'
         self.file_object = open(self.filename, 'w')
         self.file_object.write(str(self.N) + " " + str(self.times) + "\n")
 
     def StartSimulation(self):
-
-        for i in range(self.times):  # Slots
-
+        for i in range(self.times):  # 仿真时间段
             # A阶段:找出下一事件发生时刻并将仿真时钟推进到该时刻
             for j in range(self.N):  # Nodes
                 for k in self.FrameList:  # 遍历FrameList
                     if k[0] == j and k[1] == i:
                         # B阶段：执行所有到时间的B事件
-                        self.Node[j].FrameQueuePush(k[2])
+                        self.Node[j].FrameQueuePush(k[2], k[3])
+                        # print(k[2],k[3])
 
-            # C阶段：对所有C事件的条件进行判断，执行所有满足条件的C事件
-            
             self.Arbiter(i)
 
-            if len(self.WhoSend) == 1:
-                print("发送成功", self.Node[self.WhoSend[0]].frame[0])
-                self.Node[self.WhoSend[0]].frame.pop(0)
-
         self.file_object.close()
+
+    def Arbiter(self, slot):
+        self.WhoSend = []
+        for i in range(self.N):
+            # print(self.Node[i].SendFrame())
+            if not self.Node[i].SendFrame():
+                pass
+            else:
+                self.WhoSend.append(i)
+        if self.WhoSend:
+            s = str(self.WhoSend)
+            s = s.replace('[', '').replace(']', '').replace(',', '')
+            self.file_object.write(str(slot) + " " + s + "\n")
+            print("第", slot, "时隙")
+        # try:
+        for i in self.WhoSend:
+            print(i, "发送", self.Node[i].frame[0][0], ",持续时间：", self.Node[i].frame[0][1])
+        # except IndexError:
+        #     pass
+
+        if len(self.WhoSend) > 1:  # 发生碰撞
+            CSMANode.Node.Conflict = True
+        elif len(self.WhoSend) == 1:
+            CSMANode.Node.Crowd = True
+            CSMANode.Node.Conflict = False
+        else:
+            CSMANode.Node.Crowd = False
+            CSMANode.Node.Conflict = False
 
     def print(self):
         self.file_object = open(self.filename, 'r')
@@ -73,14 +91,14 @@ class Scheduler:
             for j in range(int(a[1])):
                 if y[i][j]:
                     res[j] += 1
-                    for k in range(7):
+                    for k in range(10):
                         newY[10 * j + k + 2] += 0.9
             plt.plot(x, newY)
 
         newRes = np.zeros(10 * int(a[1]))
         for i in range(int(a[1])):
             if res[i] == 1:
-                for k in range(7):
+                for k in range(10):
                     newRes[10 * i + k + 2] += 0.9
         plt.plot(x, newRes)
         yyticks = ["res"]
@@ -91,55 +109,8 @@ class Scheduler:
         plt.xticks(np.arange(0, int(a[1]), 1))
         plt.show()
 
-    def CalcEffciency(self):
-        self.file_object.close()
-        with open(self.filename, mode='r') as f:
-            content = f.readlines()
-            sentNum = 0
-            for i in range(len(content)):
-                content[i] = content[i].rstrip('\n').split()
-                if len(content[i]) == 2:
-                    sentNum += 1
-            print(len(self.FrameList))
-            return (sentNum-1) / len(self.FrameList)
-
-    def Arbiter(self, slot):  # 判决器
-        self.WhoSend = []
-
-        for i in range(self.N):
-            if not self.Node[i].SendFrame():
-                pass
-            else:
-
-                self.WhoSend.append(i)
-
-        if self.WhoSend:
-            s = str(self.WhoSend)
-            s = s.replace('[', '').replace(']', '').replace(',', '')
-            self.file_object.write(str(slot) + " " + s + "\n")
-            print("第", slot, "时隙")
-        for i in self.WhoSend:
-            print(i, "发送", self.Node[i].frame[0])
-
-        if len(self.WhoSend) > 1: # 发生重传
-            for each in self.WhoSend:
-                self.Node[each].ReSend=True
-            # return 1
-        else:   # 不重传
-            if self.WhoSend:
-                self.Node[self.WhoSend[0]].ReSend=False
-            # return 0
 
 
-if __name__ == "__main__":
-    import SAEventListManagement
 
-    N = 5
-    times = 100
 
-    elm = SAEventListManagement.EventListManagement(N, times)
-    elm.DefinePoissonEvents(endslot=times, lamb=2)
-    clk = Scheduler(N, times, elm.FinishDefine())
-    clk.StartSimulation()
-    print(clk.CalcEffciency())
-    # print(clk.file_object.readlines())
+
